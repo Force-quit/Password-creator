@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QLabel>
 #include <QPushButton>
-#include "../../Utilities/EQUIRangedLineEdit.h"
+#include "../../Utilities/Qt/EQIntLineEdit/EQIntLineEdit.h"
 #include <QString>
 #include <QFileDialog>
 #include <QListView>
@@ -22,7 +22,7 @@
 EQPasswordCreator::EQPasswordCreator(QWidget* parent)
 	: QMainWindow(parent), workerThread(), passwordCreatorWorker(), passwordsListModel(), realPasswordList(), characterSetText()
 {
-	passwordCreatorWorker = new EQPasswordCreatorWorker(DEFAULT_PASSWORD_LENGTH);
+	passwordCreatorWorker = new EQPasswordCreatorWorker;
 
 	QWidget* centralWidget{ new QWidget };
 	QHBoxLayout* centalLayout{ new QHBoxLayout };
@@ -56,8 +56,8 @@ QGroupBox* EQPasswordCreator::initParameters()
 
 	QHBoxLayout* passwordLengthLayout{ new QHBoxLayout };
 	QLabel* passwordLengthLabel{ new QLabel("Password length :") };
-	EQUIRangedLineEdit* passwordLengthLineEdit{ new EQUIRangedLineEdit(0, MAX_PASSWORD_LENGTH) };
-	passwordLengthLineEdit->insert(QString::number(DEFAULT_PASSWORD_LENGTH));
+	EQIntLineEdit* passwordLengthLineEdit{ new EQIntLineEdit(0, EQPasswordCreatorWorker::MAX_PASSWORD_LENGTH) };
+	passwordLengthLineEdit->setText(QString::number(EQPasswordCreatorWorker::DEFAULT_PASSWORD_LENGTH));
 	passwordLengthLayout->addWidget(passwordLengthLabel);
 	passwordLengthLayout->addWidget(passwordLengthLineEdit);
 
@@ -70,7 +70,7 @@ QGroupBox* EQPasswordCreator::initParameters()
 		if (!filePath.isEmpty())
 			loadAlphabet(filePath);
 	});
-	connect(passwordLengthLineEdit, &EQUIRangedLineEdit::valueValidated,
+	connect(passwordLengthLineEdit, &EQIntLineEdit::valueChanged,
 		passwordCreatorWorker, &EQPasswordCreatorWorker::setPasswordLength);
 	return parameters;
 }
@@ -124,7 +124,7 @@ void EQPasswordCreator::loadAlphabet(const QString& filePath)
 	file.close();
 }
 
-void EQPasswordCreator::updatePasswordList(const QString newPassword)
+void EQPasswordCreator::updatePasswordList(const QString& newPassword)
 {
 	realPasswordList.append(newPassword);
 	QStringList passwordList{ passwordsListModel->stringList() };

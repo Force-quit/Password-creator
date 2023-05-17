@@ -5,8 +5,9 @@
 #include <QRandomGenerator>
 #include <QThread>
 
-EQPasswordCreatorWorker::EQPasswordCreatorWorker(unsigned int passwordLength)
-	: currentAlphabet(), passwordLength(passwordLength), randomIndex(time(0))
+EQPasswordCreatorWorker::EQPasswordCreatorWorker()
+	: currentAlphabet(), passwordLength{ DEFAULT_PASSWORD_LENGTH },
+	randomIndex{ static_cast<int>(time(0)) }
 {}
 
 void EQPasswordCreatorWorker::loadAlphabet(QFile& opennedFile)
@@ -18,7 +19,7 @@ void EQPasswordCreatorWorker::loadAlphabet(QFile& opennedFile)
 		currentAlphabet.append(i);
 }
 
-void EQPasswordCreatorWorker::setPasswordLength(const unsigned int passwordLength)
+void EQPasswordCreatorWorker::setPasswordLength(int passwordLength)
 {
 	this->passwordLength = passwordLength;
 }
@@ -26,11 +27,11 @@ void EQPasswordCreatorWorker::setPasswordLength(const unsigned int passwordLengt
 void EQPasswordCreatorWorker::generatePassword()
 {
 	++randomIndex;
-	QRandomGenerator rand{ randomIndex };
-	auto alphabetLength{ currentAlphabet.length() };
+	QRandomGenerator rand(randomIndex);
+	qsizetype alphabetLength{ currentAlphabet.length() };
 	QString password;
 	password.resize(passwordLength);
-	for (unsigned int i{}; i < passwordLength; ++i)
+	for (int i{}; i < passwordLength; ++i)
 		password[i] = currentAlphabet[rand.generateDouble() * alphabetLength];
 	emit passwordGenerated(password);
 }

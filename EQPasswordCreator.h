@@ -19,12 +19,10 @@ public:
 	~EQPasswordCreator();
 
 public slots:
-	void updatePasswordList(const QString newPassword);
+	void updatePasswordList(const QString& newPassword);
 
 private:
-	static const unsigned int DEFAULT_PASSWORD_LENGTH{ 25 };
-	static const unsigned int MAX_PASSWORD_LENGTH{ 1000000 };
-	static const unsigned short MAX_SAVED_PASSWORDS{ 10 };
+	static const ushort MAX_SAVED_PASSWORDS{ 10 };
 	const QString ALPHABETS_DIR{ "character-lists" };
 	const QString DEFAULT_ALPHABET_PATH{ ALPHABETS_DIR + "/all.txt" };
 
