@@ -98,8 +98,12 @@ QVBoxLayout* EQPasswordCreator::initGenerator()
 	workerThread.start();
 
 	connect(copyButton, &QPushButton::clicked, [this, passwordsListView]() {
-		QString& password{ realPasswordList[passwordsListView->currentIndex().row()] };
-		QGuiApplication::clipboard()->setText(password);
+		int selectedRow{ passwordsListView->currentIndex().row() };
+		if (selectedRow != -1)
+		{
+			QString& password{ realPasswordList[selectedRow] };
+			QGuiApplication::clipboard()->setText(password);
+		}
 	});
 	return generatorLayout;
 }
