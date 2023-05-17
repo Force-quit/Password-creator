@@ -20,7 +20,13 @@
 #include <QStringList>
 
 EQPasswordCreator::EQPasswordCreator(QWidget* parent)
-	: QMainWindow(parent), workerThread(), passwordCreatorWorker(), passwordsListModel(), realPasswordList(), characterSetText()
+	: QMainWindow(parent), workerThread(),
+	passwordCreatorWorker(), passwordsListModel(),
+	realPasswordList(), characterSetText(),
+	MAX_SAVED_PASSWORDS{ 10 },
+	APP_PATH{ QCoreApplication::applicationDirPath() },
+	ALPHABETS_DIR{ APP_PATH + "/character-lists" },
+	DEFAULT_ALPHABET_PATH{ ALPHABETS_DIR + "/all.txt" }
 {
 	passwordCreatorWorker = new EQPasswordCreatorWorker;
 
@@ -35,7 +41,7 @@ EQPasswordCreator::EQPasswordCreator(QWidget* parent)
 
 	centralWidget->setLayout(centalLayout);
 	setCentralWidget(centralWidget);
-	setWindowIcon(QIcon("gears.png"));
+	setWindowIcon(QIcon(APP_PATH + "/gears.png"));
 
 	if (QFile::exists(DEFAULT_ALPHABET_PATH))
 		loadAlphabet(DEFAULT_ALPHABET_PATH);

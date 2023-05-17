@@ -22,9 +22,10 @@ public slots:
 	void updatePasswordList(const QString& newPassword);
 
 private:
-	static const ushort MAX_SAVED_PASSWORDS{ 10 };
-	const QString ALPHABETS_DIR{ "character-lists" };
-	const QString DEFAULT_ALPHABET_PATH{ ALPHABETS_DIR + "/all.txt" };
+	const ushort MAX_SAVED_PASSWORDS;
+	const QString APP_PATH;
+	const QString ALPHABETS_DIR;
+	const QString DEFAULT_ALPHABET_PATH;
 
 	QThread workerThread;
 	EQPasswordCreatorWorker* passwordCreatorWorker;
