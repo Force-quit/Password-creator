@@ -1,4 +1,4 @@
-#include "EQPasswordCreatorWorker.h"
+#include "../Headers/EQPasswordCreatorWorker.h"
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>

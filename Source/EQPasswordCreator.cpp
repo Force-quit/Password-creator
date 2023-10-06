@@ -1,13 +1,13 @@
-#include "EQPasswordCreator.h"
+#include "../Headers/EQPasswordCreator.h"
+#include "../Headers/EQPasswordCreatorWorker.h"
 #include <QMainWindow>
-#include "EQPasswordCreatorWorker.h"
 #include <QBoxLayout>
 #include <QGroupBox>
 #include <QIcon>
 #include <QFile>
 #include <QLabel>
 #include <QPushButton>
-#include "../../Utilities/Qt/EQIntLineEdit/EQIntLineEdit.h"
+#include <EQUtilities/EQIntLineEdit.h>
 #include <QString>
 #include <QFileDialog>
 #include <QListView>

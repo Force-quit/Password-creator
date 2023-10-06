@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "EQPasswordCreator.h"
+#include "../Headers/EQPasswordCreator.h"
 
 int main(int argc, char *argv[])
 {

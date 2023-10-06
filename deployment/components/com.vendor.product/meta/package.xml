@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Password-creator</DisplayName>
+    <Description>Why make passwords yourself when a computer can do it for you?</Description>
+    <Version>6.1</Version>
+    <ReleaseDate>2023-10-05</ReleaseDate>
+    <Default>script</Default>
+    <ForcedInstallation>true</ForcedInstallation>
+    <Script>script.qs</Script>
+</Package>
