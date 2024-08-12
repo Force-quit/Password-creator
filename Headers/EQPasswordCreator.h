@@ -4,37 +4,37 @@
 #include <QString>
 #include <QThread>
 #include "EQPasswordCreatorWorker.h"
-#include <QStringList>
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QStringListModel>
+#include <QStandardPaths>
 
 class EQPasswordCreator : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	EQPasswordCreator(QWidget *parent = nullptr);
+	EQPasswordCreator();
 	~EQPasswordCreator();
 
 public slots:
-	void updatePasswordList(const QString& newPassword);
+	void addPassword(const QString& newPassword);
 
 private:
-	const ushort MAX_SAVED_PASSWORDS;
-	const QString APP_PATH;
-	const QString ALPHABETS_DIR;
-	const QString DEFAULT_ALPHABET_PATH;
+	static constexpr std::uint8_t MAX_SAVED_PASSWORDS{ 10 };
+	inline static const QString ALPHABETS_DIR{ QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Password-creator" };
+	inline static const QString DEFAULT_ALPHABET_PATH{ ALPHABETS_DIR + "/all.txt" };
 
-	QThread workerThread;
-	EQPasswordCreatorWorker* passwordCreatorWorker;
-	QStringList realPasswordList;
-	QLabel* characterSetText;
-	QStringListModel* passwordsListModel;
+	void loadAlphabet(const QString& filePath);
 
 	QGroupBox* initParameters();
 	QVBoxLayout* initGenerator();
-	
-	void loadAlphabet(const QString& filePath);
+
+	QThread workerThread;
+	EQPasswordCreatorWorker* passwordCreatorWorker{ new EQPasswordCreatorWorker };
+
+	QLabel* characterSetText;
+	QStringList realPasswordList;
+	QStringListModel* passwordsListModel;
 };
