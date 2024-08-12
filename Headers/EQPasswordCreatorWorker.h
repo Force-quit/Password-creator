@@ -24,7 +24,7 @@ public slots:
 	void setPasswordLength(int passwordLength);
 
 signals:
-	void passwordGenerated(const QString& password);
+	void passwordGenerated(QString password);
 
 private:
 	QVector<QChar> currentAlphabet;

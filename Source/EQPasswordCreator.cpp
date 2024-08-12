@@ -40,20 +40,20 @@ EQPasswordCreator::EQPasswordCreator()
 
 QGroupBox* EQPasswordCreator::initParameters()
 {
-	QGroupBox* parameters{ new QGroupBox("Parameters") };
-	QVBoxLayout* parametersLayout{ new QVBoxLayout };
+	auto* parameters{ new QGroupBox("Parameters") };
+	auto* parametersLayout{ new QVBoxLayout };
 
-	QHBoxLayout* characterSetLayout{ new QHBoxLayout };
-	QLabel* characterSetLabel{ new QLabel("Character list :") };
+	auto* characterSetLayout{ new QHBoxLayout };
+	auto* characterSetLabel{ new QLabel("Character list :") };
 	characterSetText = new QLabel;
-	QPushButton* characterSetButton{ new QPushButton("Change") };
+	auto* characterSetButton{ new QPushButton("Change") };
 	characterSetLayout->addWidget(characterSetLabel);
 	characterSetLayout->addWidget(characterSetText);
 	characterSetLayout->addWidget(characterSetButton);
 
-	QHBoxLayout* passwordLengthLayout{ new QHBoxLayout };
-	QLabel* passwordLengthLabel{ new QLabel("Password length :") };
-	EQIntLineEdit* passwordLengthLineEdit{ new EQIntLineEdit(0, EQPasswordCreatorWorker::MAX_PASSWORD_LENGTH, 25) };
+	auto* passwordLengthLayout{ new QHBoxLayout };
+	auto* passwordLengthLabel{ new QLabel("Password length :") };
+	auto* passwordLengthLineEdit{ new EQIntLineEdit(0, EQPasswordCreatorWorker::MAX_PASSWORD_LENGTH, 25) };
 	passwordLengthLineEdit->setText(QString::number(EQPasswordCreatorWorker::DEFAULT_PASSWORD_LENGTH));
 	passwordLengthLayout->addWidget(passwordLengthLabel);
 	passwordLengthLayout->addWidget(passwordLengthLineEdit);
@@ -62,27 +62,22 @@ QGroupBox* EQPasswordCreator::initParameters()
 	parametersLayout->addLayout(passwordLengthLayout);
 	parameters->setLayout(parametersLayout);
 
-	connect(characterSetButton, &QPushButton::clicked, [this]() {
-		QString filePath{ QFileDialog::getOpenFileName(this, "Select character list", ALPHABETS_DIR, "text files (*.txt)") };
-		if (!filePath.isEmpty())
-			loadAlphabet(filePath);
-	});
-	connect(passwordLengthLineEdit, &EQIntLineEdit::valueChanged,
-		passwordCreatorWorker, &EQPasswordCreatorWorker::setPasswordLength);
+	connect(characterSetButton, &QPushButton::clicked, this, &EQPasswordCreator::loadAlphabetDialog);
+	connect(passwordLengthLineEdit, &EQIntLineEdit::valueChanged, passwordCreatorWorker, &EQPasswordCreatorWorker::setPasswordLength);
 	return parameters;
 }
 
 QVBoxLayout* EQPasswordCreator::initGenerator()
 {
-	QVBoxLayout* generatorLayout{ new QVBoxLayout };
+	auto* generatorLayout{ new QVBoxLayout };
 
-	QListView* passwordsListView{ new QListView };
+	passwordsListView = new QListView;
 	passwordsListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	passwordsListModel = new QStringListModel;
 	passwordsListView->setModel(passwordsListModel);
-	
-	QPushButton* generateButton{ new QPushButton("Generate") };
-	QPushButton* copyButton{ new QPushButton("Copy") };
+
+	auto* generateButton{ new QPushButton("Generate") };
+	auto* copyButton{ new QPushButton("Copy") };
 
 	generatorLayout->addWidget(passwordsListView);
 	generatorLayout->addWidget(generateButton);
@@ -90,18 +85,12 @@ QVBoxLayout* EQPasswordCreator::initGenerator()
 
 	connect(generateButton, &QPushButton::clicked, passwordCreatorWorker, &EQPasswordCreatorWorker::generatePassword);
 	connect(passwordCreatorWorker, &EQPasswordCreatorWorker::passwordGenerated, this, &EQPasswordCreator::addPassword);
+	connect(copyButton, &QPushButton::clicked, this, &EQPasswordCreator::copyPassword);
+
 	connect(&workerThread, &QThread::finished, passwordCreatorWorker, &QObject::deleteLater);
 	passwordCreatorWorker->moveToThread(&workerThread);
 	workerThread.start();
 
-	connect(copyButton, &QPushButton::clicked, [this, passwordsListView]() {
-		int selectedRow{ passwordsListView->currentIndex().row() };
-		if (selectedRow != -1)
-		{
-			QString& password{ realPasswordList[selectedRow] };
-			QGuiApplication::clipboard()->setText(password);
-		}
-	});
 	return generatorLayout;
 }
 
@@ -119,32 +108,51 @@ void EQPasswordCreator::loadAlphabet(const QString& filePath)
 	}
 }
 
-void EQPasswordCreator::addPassword(const QString& newPassword)
+void EQPasswordCreator::addPassword(QString newPassword)
 {
-	realPasswordList.append(newPassword);
-	QStringList passwordList{ passwordsListModel->stringList() };
-	if (realPasswordList.length() > MAX_SAVED_PASSWORDS)
-	{
-		realPasswordList.removeFirst();
-		passwordList.removeFirst();
-	}
+	passwordList.append(newPassword);
 
 	if (newPassword.length() > 30)
 	{
-		QString shortennedPassword;
-		for (short i = 0; i < 10; ++i)
-			shortennedPassword += newPassword[i];
+		newPassword = newPassword.left(15) + " [...] " + newPassword.right(15);
+	}
+	displayedPasswordList.append(newPassword);
 
-		shortennedPassword += " [...] ";
+	if (passwordList.length() > MAX_SAVED_PASSWORDS)
+	{
+		passwordList.removeFirst();
+		displayedPasswordList.removeFirst();
+	}
 
-		for (unsigned int i = newPassword.length() - 10; i < newPassword.length(); ++i)
-			shortennedPassword += newPassword[i];
+	passwordsListModel->setStringList(displayedPasswordList);
+}
 
-		passwordList.append(shortennedPassword);
+void EQPasswordCreator::loadAlphabetDialog()
+{
+	QFileDialog dialog(this);
+	dialog.setWindowTitle("Select character list");
+	dialog.setFileMode(QFileDialog::ExistingFile);
+	dialog.setNameFilter("Text files (*.txt)");
+	dialog.setDirectory(ALPHABETS_DIR);
+
+	if (dialog.exec())
+	{
+		loadAlphabet(dialog.selectedFiles().first());
+	}
+}
+
+void EQPasswordCreator::copyPassword()
+{
+	int wSelectedRow{ passwordsListView->currentIndex().row() };
+
+	if (wSelectedRow != -1)
+	{
+		QGuiApplication::clipboard()->setText(passwordList[wSelectedRow]);
 	}
 	else
-		passwordList.append(newPassword);
-	passwordsListModel->setStringList(passwordList);
+	{
+		QMessageBox::warning(this, "", "Please select a password to copy");
+	}
 }
 
 EQPasswordCreator::~EQPasswordCreator()

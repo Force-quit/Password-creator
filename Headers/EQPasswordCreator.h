@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QStringListModel>
 #include <QStandardPaths>
+#include <QListView>
 
 class EQPasswordCreator : public QMainWindow
 {
@@ -18,11 +19,13 @@ public:
 	EQPasswordCreator();
 	~EQPasswordCreator();
 
-public slots:
-	void addPassword(const QString& newPassword);
+private slots:
+	void addPassword(QString newPassword);
+	void loadAlphabetDialog();
+	void copyPassword();
 
 private:
-	static constexpr std::uint8_t MAX_SAVED_PASSWORDS{ 10 };
+	static constexpr std::uint8_t MAX_SAVED_PASSWORDS{ 150 };
 	inline static const QString ALPHABETS_DIR{ QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/Password-creator" };
 	inline static const QString DEFAULT_ALPHABET_PATH{ ALPHABETS_DIR + "/all.txt" };
 
@@ -35,6 +38,8 @@ private:
 	EQPasswordCreatorWorker* passwordCreatorWorker{ new EQPasswordCreatorWorker };
 
 	QLabel* characterSetText;
-	QStringList realPasswordList;
+	QStringList passwordList;
+	QStringList displayedPasswordList;
 	QStringListModel* passwordsListModel;
+	QListView* passwordsListView;
 };
