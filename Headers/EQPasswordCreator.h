@@ -32,14 +32,20 @@ private:
 	void loadAlphabet(const QString& filePath);
 
 	QGroupBox* initParameters();
+	QHBoxLayout* initCharacterListLayout();
+	QHBoxLayout* initPasswordLengthLayout();
+
 	QVBoxLayout* initGenerator();
 
-	QThread workerThread;
-	EQPasswordCreatorWorker* passwordCreatorWorker{ new EQPasswordCreatorWorker };
+	
 
-	QLabel* characterSetText;
-	QStringList passwordList;
-	QStringList displayedPasswordList;
-	QStringListModel* passwordsListModel;
-	QListView* passwordsListView;
+	QThread mWorkerThread;
+	EQPasswordCreatorWorker* mPasswordCreatorWorker{ new EQPasswordCreatorWorker };
+
+	QStringList mPasswordList;
+	QStringList mDisplayedPasswordList;
+
+	QLabel* mCharacterSetLabel;
+	QStringListModel* mPasswordListModel;
+	QListView* mPasswordsListView;
 };
