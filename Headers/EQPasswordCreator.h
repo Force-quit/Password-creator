@@ -37,8 +37,6 @@ private:
 
 	QVBoxLayout* initGenerator();
 
-	
-
 	QThread mWorkerThread;
 	EQPasswordCreatorWorker* mPasswordCreatorWorker{ new EQPasswordCreatorWorker };
 
