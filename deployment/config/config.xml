@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
     <Name>Password-creator</Name>
-    <Version>6.1</Version>
-    <Title>Password-creator installer</Title>
+    <Version>7.0</Version>
+    <Title>Password-creator</Title>
     <Publisher>Émile Laforce</Publisher>
-    <InstallerApplicationIcon>../../Resources/gears</InstallerApplicationIcon>
+    <InstallerApplicationIcon>../../Resources/appIcon</InstallerApplicationIcon>
     <StartMenuDir>Emalice</StartMenuDir>
     <WizardStyle>Modern</WizardStyle>
     <TargetDir>@ApplicationsDir@/Emalice/Password-creator</TargetDir>
