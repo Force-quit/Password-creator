@@ -1,40 +1,32 @@
 #include "../Headers/EQPasswordCreatorWorker.h"
 #include <QString>
-#include <QFileDialog>
-#include <QMessageBox>
 #include <QRandomGenerator>
 #include <QThread>
+#include <QTextStream>
+#include <QFile>
 
-EQPasswordCreatorWorker::EQPasswordCreatorWorker()
-	: currentAlphabet(), passwordLength{ DEFAULT_PASSWORD_LENGTH },
-	randomIndex{ static_cast<int>(time(0)) }
-{}
-
-void EQPasswordCreatorWorker::loadAlphabet(QFile& opennedFile)
+void EQPasswordCreatorWorker::loadAlphabet(QFile& iOpennedFile)
 {
-	currentAlphabet.clear();
-	QTextStream in{ &opennedFile };
-	QString line{ in.readLine() };
-	for (QChar& i : line)
-		currentAlphabet.append(i);
+	mCurrentAlphabet.clear();
+	QTextStream wTextStream(&iOpennedFile);
+	QString wLine(wTextStream.readLine());
+	mCurrentAlphabet.assign(wLine.begin(), wLine.end());
 }
 
-void EQPasswordCreatorWorker::setPasswordLength(int passwordLength)
+void EQPasswordCreatorWorker::setPasswordLength(int iPasswordLength)
 {
-	this->passwordLength = passwordLength;
+	mPasswordLength = iPasswordLength;
 }
 
 void EQPasswordCreatorWorker::generatePassword()
 {
-	++randomIndex;
-	QRandomGenerator rand(randomIndex);
-	qsizetype alphabetLength{ currentAlphabet.length() };
-	QString password;
-	password.resize(passwordLength);
-	for (int i{}; i < passwordLength; ++i)
-		password[i] = currentAlphabet[rand.generateDouble() * alphabetLength];
-	emit passwordGenerated(password);
-}
+	QString wPassword;
+	wPassword.resize(mPasswordLength);
 
-EQPasswordCreatorWorker::~EQPasswordCreatorWorker()
-{}
+	for (int i{}; i < mPasswordLength; ++i)
+	{
+		wPassword[i] = mCurrentAlphabet[QRandomGenerator::global()->bounded(0, mCurrentAlphabet.length())];
+	}
+
+	emit passwordGenerated(wPassword);
+}

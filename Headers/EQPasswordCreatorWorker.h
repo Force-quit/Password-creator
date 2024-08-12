@@ -11,23 +11,19 @@ class EQPasswordCreatorWorker : public QObject
 	Q_OBJECT
 
 public:
-	EQPasswordCreatorWorker();
-	~EQPasswordCreatorWorker();
-	
-	void loadAlphabet(QFile& opennedFile);
+	void loadAlphabet(QFile& iOpennedFile);
 
-	static const int MAX_PASSWORD_LENGTH{ 1000000 };
-	static const int DEFAULT_PASSWORD_LENGTH{ 25 };
+	static constexpr std::uint16_t MAX_PASSWORD_LENGTH{ 0xFFFF };
+	static constexpr std::uint16_t DEFAULT_PASSWORD_LENGTH{ 25 };
 
 public slots:
 	void generatePassword();
-	void setPasswordLength(int passwordLength);
+	void setPasswordLength(int iPasswordLength);
 
 signals:
-	void passwordGenerated(QString password);
+	void passwordGenerated(QString iPassword);
 
 private:
-	QVector<QChar> currentAlphabet;
-	int passwordLength;
-	int randomIndex;
+	int mPasswordLength{ DEFAULT_PASSWORD_LENGTH };
+	QVector<QChar> mCurrentAlphabet;
 };
