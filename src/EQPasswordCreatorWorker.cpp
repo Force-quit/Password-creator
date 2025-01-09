@@ -1,4 +1,4 @@
-#include "../Headers/EQPasswordCreatorWorker.h"
+#include "EQPasswordCreatorWorker.hpp"
 #include <QString>
 #include <QRandomGenerator>
 #include <QThread>

@@ -1,6 +1,6 @@
-#include "../Headers/EQPasswordCreator.h"
-#include "../Headers/EQPasswordCreatorWorker.h"
-#include <EQUtilities/EQIntLineEdit.h>
+#include "EQPasswordCreator.hpp"
+#include "EQPasswordCreatorWorker.hpp"
+#include <EQIntLineEdit.hpp>
 #include <QBoxLayout>
 #include <QClipboard>
 #include <QDir>

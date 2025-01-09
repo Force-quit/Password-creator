@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QThread>
-#include "EQPasswordCreatorWorker.h"
+#include "EQPasswordCreatorWorker.hpp"
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QLabel>
