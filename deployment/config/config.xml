@@ -4,7 +4,7 @@
     <Version>7.0</Version>
     <Title>Password-creator</Title>
     <Publisher>Émile Laforce</Publisher>
-    <InstallerApplicationIcon>../../Resources/appIcon</InstallerApplicationIcon>
+    <InstallerApplicationIcon>../../resources/icon</InstallerApplicationIcon>
     <StartMenuDir>Emalice</StartMenuDir>
     <WizardStyle>Modern</WizardStyle>
     <TargetDir>@ApplicationsDir@/Emalice/Password-creator</TargetDir>

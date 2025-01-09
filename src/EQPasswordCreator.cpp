@@ -35,7 +35,7 @@ EQPasswordCreator::EQPasswordCreator()
 		loadAlphabet(DEFAULT_ALPHABET_PATH);
 	}
 
-	setWindowIcon(QIcon(":/images/appIcon.png"));
+	setWindowIcon(QIcon(":/images/icon.png"));
 }
 
 QGroupBox* EQPasswordCreator::initParameters()

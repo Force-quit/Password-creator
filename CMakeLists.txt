@@ -27,7 +27,7 @@ set(SOURCE
 
 qt_add_executable(Password-creator ${SOURCE})
 target_link_libraries(Password-creator PRIVATE Qt6::Widgets EQUtilities)
-target_sources(Password-creator PRIVATE resources/appIcon.rc)
+target_sources(Password-creator PRIVATE resources/icon.rc)
 set_target_properties(Password-creator PROPERTIES
     WIN32_EXECUTABLE ON
 )
@@ -35,5 +35,5 @@ set_target_properties(Password-creator PROPERTIES
 qt_add_resources(Password-creator imageresources
     PREFIX "/images"
     BASE resources
-    FILES resources/appIcon.png
+    FILES resources/icon.png
 )
