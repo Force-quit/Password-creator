@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/EQPasswordCreator.cpp" line="58"/>
         <source>Character set :</source>
-        <translation>Liste de lettres</translation>
+        <translation>Liste de lettres :</translation>
     </message>
     <message>
         <location filename="../src/EQPasswordCreator.cpp" line="64"/>
@@ -41,7 +41,7 @@
     <message>
         <location filename="../src/EQPasswordCreator.cpp" line="126"/>
         <source>Error reading file </source>
-        <translation>Erreur de lecture du fichier</translation>
+        <translation>Erreur de lecture du fichier </translation>
     </message>
     <message>
         <location filename="../src/EQPasswordCreator.cpp" line="152"/>

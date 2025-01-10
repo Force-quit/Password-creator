@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QTranslator translator;
-    if (translator.load(QLocale(), "", "", ":/translations", ".qm"))
+    if (translator.load(QLocale(), "", "", "resources", ".qm"))
     {
         a.installTranslator(&translator);
     }
