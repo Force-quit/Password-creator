@@ -1,15 +1,16 @@
 #pragma once
 
-#include <QMainWindow>
-#include <QString>
-#include <QThread>
 #include "EQPasswordCreatorWorker.hpp"
+
+#include <EQThread.hpp>
 #include <QGroupBox>
-#include <QVBoxLayout>
 #include <QLabel>
-#include <QStringListModel>
-#include <QStandardPaths>
 #include <QListView>
+#include <QMainWindow>
+#include <QStandardPaths>
+#include <QString>
+#include <QStringListModel>
+#include <QVBoxLayout>
 
 class EQPasswordCreator : public QMainWindow
 {
@@ -17,7 +18,6 @@ class EQPasswordCreator : public QMainWindow
 
 public:
 	EQPasswordCreator();
-	~EQPasswordCreator();
 
 private slots:
 	void addPassword(QString newPassword);
@@ -37,7 +37,7 @@ private:
 
 	QVBoxLayout* initGenerator();
 
-	QThread mWorkerThread;
+	EQThread mWorkerThread;
 	EQPasswordCreatorWorker* mPasswordCreatorWorker{ new EQPasswordCreatorWorker };
 
 	QStringList mPasswordList;

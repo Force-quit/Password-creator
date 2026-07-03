@@ -1,10 +1,10 @@
 #pragma once
 
+#include <QChar>
+#include <QFile>
 #include <QObject>
 #include <QString>
 #include <QVector>
-#include <QChar>
-#include <QFile>
 
 class EQPasswordCreatorWorker : public QObject
 {

@@ -1,5 +1,7 @@
 #include "EQPasswordCreator.hpp"
+
 #include "EQPasswordCreatorWorker.hpp"
+
 #include <EQIntLineEdit.hpp>
 #include <QBoxLayout>
 #include <QClipboard>
@@ -106,8 +108,7 @@ QVBoxLayout* EQPasswordCreator::initGenerator()
 	connect(mPasswordCreatorWorker, &EQPasswordCreatorWorker::passwordGenerated, this, &EQPasswordCreator::addPassword);
 	connect(wCopyButton, &QPushButton::clicked, this, &EQPasswordCreator::copyPassword);
 
-	connect(&mWorkerThread, &QThread::finished, mPasswordCreatorWorker, &QObject::deleteLater);
-	mPasswordCreatorWorker->moveToThread(&mWorkerThread);
+	mWorkerThread.moveObjectToThread(mPasswordCreatorWorker);
 	mWorkerThread.start();
 
 	return wGeneratorLayout;
@@ -172,10 +173,4 @@ void EQPasswordCreator::copyPassword()
 	{
 		QMessageBox::warning(this, "", tr("Please select a password to copy"));
 	}
-}
-
-EQPasswordCreator::~EQPasswordCreator()
-{
-	mWorkerThread.quit();
-	mWorkerThread.wait();
 }
